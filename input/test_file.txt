@@ -1,0 +1,1 @@
+In addition to complications, Unicode also brings new possibilities. One is that each Unicode character belongs to a certain category.

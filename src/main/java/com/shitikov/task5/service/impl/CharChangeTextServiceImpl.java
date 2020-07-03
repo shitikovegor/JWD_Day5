@@ -2,13 +2,10 @@ package com.shitikov.task5.service.impl;
 
 import com.shitikov.task5.exception.ProjectException;
 import com.shitikov.task5.service.ChangeTextService;
-import com.shitikov.task5.validator.DataValidator;
 
 import java.util.ArrayList;
 
-import static com.shitikov.task5.service.impl.StringChangeTextServiceImpl.getCasesOfLetter;
-
-public class CharChangeTextServiceImpl implements ChangeTextService {
+public class CharChangeTextServiceImpl extends TextService implements ChangeTextService {
 
     @Override
     public String changeCharacter(String text, int index, char changeChar) throws ProjectException {
@@ -35,6 +32,9 @@ public class CharChangeTextServiceImpl implements ChangeTextService {
     @Override
     public String changeSubsequentLetter(String text, char precedLetter, char incorrectLetter,
                                          char correctLetter) throws ProjectException {
+        if (text == null) {
+            throw new ProjectException("Invalid parameters");
+        }
 
         char[] textChar = text.toCharArray();
         char[] precedLetterCases = getCasesOfLetter(precedLetter);
@@ -54,9 +54,8 @@ public class CharChangeTextServiceImpl implements ChangeTextService {
     @Override
     public String changeWord(String text, int length, int startSubstring,
                              int endSubstring) throws ProjectException {
-        DataValidator validator = new DataValidator();
 
-        if (!validator.isValidData(text, length, startSubstring, endSubstring)) {
+        if (!isValidData(text, length, startSubstring, endSubstring)) {
             throw new ProjectException("Invalid parameters");
         }
 
@@ -71,23 +70,13 @@ public class CharChangeTextServiceImpl implements ChangeTextService {
                 word.add(textChar[i]);
                 i++;
             }
-            if (!word.isEmpty() && (word.size() != length)) {
+            if ((word.size() != length)) {
                 result.append(listToString(word));
             } else {
                 result.append(substring);
             }
             result.append(textChar[i]);
             word.clear();
-        }
-
-        return result.toString();
-    }
-
-    private String listToString(ArrayList<Character> word) {
-        StringBuilder result = new StringBuilder();
-
-        for (char letter : word) {
-            result.append(letter);
         }
         return result.toString();
     }

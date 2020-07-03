@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TextReader {
-    public String readFile(String fileName) {
+    public String readFile(String fileName) throws ProjectException {
         String text = "";
         Path path = Paths.get(fileName);
 
@@ -22,7 +22,7 @@ public class TextReader {
             try (Stream<String> dataStream = Files.lines(path)) {
                 text = dataStream.collect(Collectors.joining());
             } catch (IOException | UncheckedIOException e) {
-                throw new RuntimeException("Program error.", e);
+                throw new ProjectException("Program error.", e);
             }
         }
         return text;
@@ -37,7 +37,7 @@ public class TextReader {
                 text.add(line);
             }
         } catch (IOException e) {
-            throw new ProjectException("Console error");
+            throw new ProjectException("Console error", e);
         }
         return text.toString();
     }

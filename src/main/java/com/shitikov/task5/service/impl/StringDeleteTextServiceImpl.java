@@ -3,18 +3,14 @@ package com.shitikov.task5.service.impl;
 import com.shitikov.task5.exception.ProjectException;
 import com.shitikov.task5.service.DeleteTextService;
 
-public class StringDeleteTextServiceImpl implements DeleteTextService {
-    private static final String PUNCT_REGEX = "\\s*\\p{Punct}*\\s+";
-    private static final String SPACE = "\\s+";
+public class StringDeleteTextServiceImpl extends TextService implements DeleteTextService {
     private static final String VOWEL_REGEX = "[aeiouаоуыэяёюие]";
-    private static final String SYMBOL_REGEX = "[\\p{Digit}]|\\p{P}(?<!\\p{Alpha}-)(?<!\\p{Alpha}')";
 
     @Override
     public String deleteNotLetters(String text) throws ProjectException{
         if (text == null) {
             throw new ProjectException("Invalid parameters");
         }
-
         String result = text.replaceAll(SYMBOL_REGEX, " ");
 
         return result;
